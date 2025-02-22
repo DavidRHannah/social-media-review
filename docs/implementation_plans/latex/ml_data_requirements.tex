@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{sectsty}
+
+\allsectionsfont{\sffamily}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{MediaReview Social: Data Requirements}
+\rhead{\today}
+\cfoot{\thepage}
+
+\title{Data Requirements for Machine Learning Pipeline\\ in MediaReview Social}
+\author{Your Company Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+This document outlines the data requirements for the machine learning pipeline of MediaReview Social. It describes the data sources, types, storage strategies, preprocessing, and data quality measures necessary to power our recommendation engine, sentiment analysis, and content moderation features.
+
+\section{Data Sources and Types}
+\subsection*{User-Generated Content}
+\begin{itemize}[noitemsep]
+    \item \textbf{Reviews and Ratings:}
+    \begin{itemize}[noitemsep]
+        \item Text of reviews, numerical ratings (stars, thumbs up/down)
+        \item Metadata: timestamps, media identifiers (movie/show IDs), optional location data
+    \end{itemize}
+    \item \textbf{Comments and Interactions:}
+    \begin{itemize}[noitemsep]
+        \item Replies, likes, shares, and threaded conversation data
+    \end{itemize}
+\end{itemize}
+
+\subsection*{User Profile and Behavioral Data}
+\begin{itemize}[noitemsep]
+    \item \textbf{Profile Information:} Username, profile picture, bio, sign-up date
+    \item \textbf{Usage Data:} Browsing history, clickstream data, session duration, frequency of interactions, and social connections (followers/following)
+\end{itemize}
+
+\subsection*{External Media Metadata}
+\begin{itemize}[noitemsep]
+    \item \textbf{Media Information:} Cast, synopsis, genres, release dates, ratings (via APIs such as TMDb or IMDb)
+    \item \textbf{Media Assets:} Posters, trailers, and other multimedia references
+\end{itemize}
+
+\subsection*{System Logs and Event Data}
+\begin{itemize}[noitemsep]
+    \item \textbf{Interaction Logs:} API calls, user events (login, logout, posting), error events
+    \item \textbf{Performance Metrics:} System and application metrics to monitor model performance and data flow efficiency
+\end{itemize}
+
+\section{Data Volume, Velocity, and Variety}
+\begin{itemize}[noitemsep]
+    \item \textbf{Volume:} Initially, thousands of reviews and interactions per day, scaling to tens of thousands as user adoption increases.
+    \item \textbf{Velocity:} Combination of real-time ingestion for immediate features and batch processing for periodic model retraining.
+    \item \textbf{Variety:} Structured data (user profiles, ratings) and unstructured data (review text, comments) requiring flexible storage and processing.
+\end{itemize}
+
+\section{Data Storage and Pipeline}
+\subsection*{Raw Data Storage}
+\begin{itemize}[noitemsep]
+    \item Store raw data in a data lake (e.g., AWS S3) using formats like JSON or CSV.
+\end{itemize}
+
+\subsection*{Processed Data Storage}
+\begin{itemize}[noitemsep]
+    \item Structured data: Use relational databases (e.g., PostgreSQL).
+    \item Unstructured data: Use NoSQL databases (e.g., MongoDB) or distributed systems (e.g., Apache Spark) for processing.
+\end{itemize}
+
+\subsection*{Data Pipeline Tools}
+\begin{itemize}[noitemsep]
+    \item \textbf{Streaming Data:} Use Apache Kafka or similar platforms for real-time ingestion.
+    \item \textbf{Batch Processing:} Employ tools like Apache Spark or AWS Glue for periodic processing and feature engineering.
+\end{itemize}
+
+\section{Data Quality and Preprocessing}
+\subsection*{Cleaning and Validation}
+\begin{itemize}[noitemsep]
+    \item Remove duplicates, correct inconsistencies, and filter out noise (e.g., spam or non-informative reviews).
+\end{itemize}
+
+\subsection*{Normalization and Transformation}
+\begin{itemize}[noitemsep]
+    \item \textbf{Text Preprocessing:} Tokenization, lowercasing, and removal of stop words using NLP libraries (e.g., NLTK, spaCy).
+    \item \textbf{Feature Engineering:} Convert text to embeddings (e.g., Word2Vec, TF-IDF, or transformer-based models) and extract behavioral metrics.
+\end{itemize}
+
+\subsection*{Handling Missing Data}
+\begin{itemize}[noitemsep]
+    \item Establish strategies to impute or discard incomplete records to maintain data integrity.
+\end{itemize}
+
+\section{Data Privacy and Security}
+\begin{itemize}[noitemsep]
+    \item \textbf{Data Protection:} Encrypt data both in transit (TLS/SSL) and at rest.
+    \item \textbf{Access Control:} Implement role-based access to restrict sensitive data.
+    \item \textbf{Compliance:} Adhere to regulations like GDPR and CCPA, ensuring proper user consent and data anonymization.
+\end{itemize}
+
+\section{Use Cases for Data in ML Models}
+\begin{itemize}[noitemsep]
+    \item \textbf{Recommendation Engine:} Leverage user interaction and review history for personalized content suggestions.
+    \item \textbf{Sentiment Analysis:} Analyze review text to determine sentiment, enhancing recommendations and highlighting trends.
+    \item \textbf{Content Moderation:} Use user-generated content and logs to detect and flag spam or inappropriate content.
+\end{itemize}
+
+\end{document}

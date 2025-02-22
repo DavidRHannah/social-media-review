@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{sectsty}
+
+\allsectionsfont{\sffamily}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{MediaReview Social: Tools and Frameworks}
+\rhead{\today}
+\cfoot{\thepage}
+
+\title{Tools and Frameworks for the Machine Learning Pipeline}
+\author{Your Company Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Data Ingestion and Streaming}
+\begin{itemize}[noitemsep]
+    \item \textbf{Apache Kafka or AWS Kinesis:} For real-time streaming of user interactions and review data into the processing pipeline.
+\end{itemize}
+
+\section{Data Storage}
+\subsection{Raw Data}
+\begin{itemize}[noitemsep]
+    \item \textbf{AWS S3 or Google Cloud Storage:} To store raw JSON or CSV files from ingested data.
+\end{itemize}
+
+\subsection{Structured Data}
+\begin{itemize}[noitemsep]
+    \item \textbf{PostgreSQL:} For storing user profiles, metadata, and other relational data.
+\end{itemize}
+
+\subsection{Unstructured Data}
+\begin{itemize}[noitemsep]
+    \item \textbf{MongoDB:} For flexible storage of review text, comments, and session logs.
+\end{itemize}
+
+\section{Data Processing and Preprocessing}
+\begin{itemize}[noitemsep]
+    \item \textbf{Apache Spark:} For large-scale data processing and feature engineering (batch processing).
+    \item \textbf{Python Libraries:} 
+    \begin{itemize}[noitemsep]
+        \item \textbf{Pandas and NumPy:} For data manipulation.
+        \item \textbf{NLTK or spaCy:} For natural language processing and text preprocessing.
+    \end{itemize}
+    \item \textbf{Jupyter Notebooks:} For exploratory data analysis and iterative development.
+\end{itemize}
+
+\section{Machine Learning Model Development}
+\begin{itemize}[noitemsep]
+    \item \textbf{Deep Learning Frameworks:} 
+    \begin{itemize}[noitemsep]
+        \item \textbf{TensorFlow and/or PyTorch:} For building and training deep learning models.
+    \end{itemize}
+    \item \textbf{Classical Machine Learning:} 
+    \begin{itemize}[noitemsep]
+        \item \textbf{scikit-learn:} For collaborative filtering, clustering, and other classical ML approaches.
+    \end{itemize}
+    \item \textbf{Pre-trained Models and NLP Libraries:} 
+    \begin{itemize}[noitemsep]
+        \item \textbf{Hugging Face Transformers:} For leveraging pre-trained models such as BERT or RoBERTa for sentiment analysis.
+    \end{itemize}
+\end{itemize}
+
+\section{Model Deployment and Serving}
+\begin{itemize}[noitemsep]
+    \item \textbf{Docker:} For containerizing ML models and ensuring consistency across environments.
+    \item \textbf{Kubernetes:} For orchestrating, scaling, and managing containerized applications.
+    \item \textbf{Managed ML Platforms:} 
+    \begin{itemize}[noitemsep]
+        \item \textbf{AWS SageMaker or Google AI Platform:} For managed model training and hosting inference endpoints.
+    \end{itemize}
+\end{itemize}
+
+\section{ML Pipeline Orchestration and Monitoring}
+\begin{itemize}[noitemsep]
+    \item \textbf{Apache Airflow:} For scheduling and orchestrating data ingestion, processing, and model retraining pipelines.
+    \item \textbf{MLFlow:} For tracking experiments, model versioning, and deployment.
+    \item \textbf{Monitoring Tools:} 
+    \begin{itemize}[noitemsep]
+        \item \textbf{Prometheus and Grafana:} For real-time monitoring and visualization of model performance and system metrics.
+    \end{itemize}
+\end{itemize}
+
+\end{document}
