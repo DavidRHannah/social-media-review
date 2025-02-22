@@ -1,0 +1,45 @@
+# Byte-compiled files and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment directories (adjust the names if needed)
+venv/
+ENV/
+env/
+.env/
+.venv/
+
+# Distribution and packaging directories
+build/
+develop-eggs/
+dist/
+*.egg-info/
+.eggs/
+
+# Installer logs and pip cache
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Editor and IDE files
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS-specific files
+.DS_Store
+Thumbs.db
