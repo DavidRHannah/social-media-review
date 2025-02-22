@@ -15,9 +15,12 @@ def find_pdflatex():
 def compile_tex_file(pdflatex_path, tex_file, working_dir):
     """
     Compile a single .tex file by running pdflatex twice.
-    Returns True if compilation succeeds, False otherwise.
+    Returns a tuple (succeeded, output), where succeeded is True if both runs
+    returned 0, and output is the combined stdout and stderr for logging.
     """
     command = [pdflatex_path, "-interaction=nonstopmode", tex_file]
+    combined_output = ""
+    succeeded = True
     for i in range(2):
         result = subprocess.run(
             command,
@@ -26,12 +29,13 @@ def compile_tex_file(pdflatex_path, tex_file, working_dir):
             stderr=subprocess.PIPE,
             text=True
         )
+        combined_output += f"Pass {i+1} output:\n{result.stdout}\n{result.stderr}\n"
         if result.returncode != 0:
+            succeeded = False
             print(f"Error compiling {tex_file} (pass {i+1}):")
             print(result.stdout)
             print(result.stderr)
-            return False
-    return True
+    return succeeded, combined_output
 
 def compile_all_tex(source_dir, pdf_dir):
     """Compile all .tex files in source_dir and move resulting PDFs to pdf_dir."""
@@ -45,26 +49,36 @@ def compile_all_tex(source_dir, pdf_dir):
         if filename.lower().endswith(".tex"):
             tex_file = filename
             print(f"\nCompiling {tex_file} ...")
-            if compile_tex_file(pdflatex_path, tex_file, source_dir):
-                # Construct the expected PDF filename
-                pdf_filename = os.path.splitext(filename)[0] + ".pdf"
-                src_pdf_path = os.path.join(source_dir, pdf_filename)
-                if os.path.exists(src_pdf_path):
-                    dst_pdf_path = os.path.join(pdf_dir, pdf_filename)
-                    shutil.move(src_pdf_path, dst_pdf_path)
+            succeeded, log_output = compile_tex_file(pdflatex_path, tex_file, source_dir)
+            
+            # Construct the expected PDF filename
+            pdf_filename = os.path.splitext(filename)[0] + ".pdf"
+            src_pdf_path = os.path.join(source_dir, pdf_filename)
+            
+            # Attempt to move the PDF if it exists, even if compilation wasn't perfect.
+            if os.path.exists(src_pdf_path):
+                destination_pdf = os.path.join(pdf_dir, pdf_filename)
+                try:
+                    shutil.move(src_pdf_path, destination_pdf)
                     print(f"Moved {pdf_filename} to {pdf_dir}")
-                else:
-                    print(f"PDF not generated for {tex_file}")
-                
-                # Optionally remove auxiliary files generated during compilation
-                for ext in ['aux', 'log', 'out', 'toc']:
-                    aux_filename = os.path.splitext(filename)[0] + f".{ext}"
-                    aux_path = os.path.join(source_dir, aux_filename)
-                    if os.path.exists(aux_path):
-                        os.remove(aux_path)
-                        print(f"Removed {aux_filename}")
+                except Exception as e:
+                    print(f"Failed to move {pdf_filename} to {pdf_dir}: {e}")
             else:
-                print(f"Compilation failed for {tex_file}")
+                print(f"PDF not generated for {tex_file}")
+            
+            # Optionally, remove auxiliary files (e.g., .aux, .log, .out, .toc)
+            for ext in ['aux', 'log', 'out', 'toc']:
+                aux_file = os.path.splitext(filename)[0] + f".{ext}"
+                aux_path = os.path.join(source_dir, aux_file)
+                if os.path.exists(aux_path):
+                    try:
+                        os.remove(aux_path)
+                        print(f"Removed {aux_file}")
+                    except Exception as e:
+                        print(f"Failed to remove {aux_file}: {e}")
+            
+            if not succeeded:
+                print(f"Note: Compilation of {tex_file} reported errors. Please check the log above for details.")
 
 def main():
     parser = argparse.ArgumentParser(
